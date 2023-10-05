@@ -1,0 +1,27 @@
+//@abstract
+rule LinkedList2LinkedList 
+    transform s : Source!LinkedList
+    to t : Target!LinkedList {
+
+    guard: s.nodes.size() > 0;
+        
+    t.nodes ::= s.nodes;
+    t.head ::= Source!Node.all.selectOne(n|n.next == null);
+}
+
+@greedy
+rule Node2Node
+    transform s : Source!Node
+    to t : Target!Node 
+    extends LinkedList2LinkedList {
+    
+    var nodeName = s.name;
+    t.name = s.name;
+    t.next ::= Source!Node.all.selectOne(n|n.next = s);
+}
+/*
+This is a 
+Multi
+line
+comment
+*/
